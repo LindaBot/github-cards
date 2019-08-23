@@ -10,6 +10,7 @@ site: generate
 	@mkdir -p _site
 	@uglifyjs src/widget.js -m -o _site/widget.js
 	@cp index.html site.js site.css _site/
+	@cp index.html site.js site.css _site/
 	@cp cards/default.html _site/card.html
 	@mv cards _site/
 

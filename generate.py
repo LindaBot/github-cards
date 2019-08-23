@@ -67,7 +67,7 @@ def create_widget():
     with open('src/widget.js') as f:
         content = f.read()
         content = content.replace(
-            'var base = "//lab.lepture.com/github-cards/";',
+            'var base = "//lindabot.github.io/github-cards/";',
             'var base = "%s";' % url
         )
 

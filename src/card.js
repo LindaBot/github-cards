@@ -72,7 +72,7 @@ var qs = querystring();
       url += '?client_id=' + qs.client_id + '&client_secret=' + qs.client_secret;
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
+    xhr.open('GET', url, false);
     xhr.onload = function() {
       callback(JSON.parse(xhr.response));
     };
@@ -164,7 +164,7 @@ var qs = querystring();
       if (data.owner && data.owner.avatar_url) {
         data.avatar_url = data.owner.avatar_url;
       }
-      data.forks_count = numberic(data.forks_count) || defaults;
+      data.commits_count = getContributions(user, repo);
       data.watchers_count = numberic(data.watchers_count) || defaults;
       if (data.fork) {
         data.action = 'Forked by ';
@@ -206,6 +206,21 @@ var qs = querystring();
     num = num / 1000;
     if (num > 10) return parseInt(num, 10) + 'k';
     return num.toFixed(1) + 'k';
+  }
+
+  function getContributions(user, repo){
+    var url = baseurl + 'repos/' + user + '/' + repo + "/contributors";
+    var contributions;
+    request(url, function(data){
+      for (var i = 0; i < data.length; i++){
+        if (data[i].login.toLowerCase() === user.toLowerCase()){
+          contributions = data[i].contributions;
+          break;
+        }
+      }
+      return contributions;
+    })
+    return contributions;
   }
 
   if (!qs.user) {
